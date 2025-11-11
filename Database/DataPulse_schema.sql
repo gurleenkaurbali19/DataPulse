@@ -96,6 +96,18 @@ create table sales_raw (sale_id INT,
 );
 
 
+ALTER TABLE customers_raw MODIFY COLUMN customer_id INT AUTO_INCREMENT PRIMARY KEY;
+ALTER TABLE products_raw MODIFY COLUMN product_id INT AUTO_INCREMENT PRIMARY KEY;
+ALTER TABLE orders_raw MODIFY COLUMN order_id INT AUTO_INCREMENT PRIMARY KEY;
+ALTER TABLE sales_raw MODIFY COLUMN sale_id INT AUTO_INCREMENT PRIMARY KEY;
+
+ALTER TABLE customers_raw MODIFY COLUMN created_at DATETIME DEFAULT NOW();
+
+ALTER TABLE products_raw MODIFY COLUMN stock INT CHECK(stock>=0);
+ALTER TABLE products_raw MODIFY COLUMN added_at DATETIME DEFAULT NOW();
+
+ALTER TABLE orders_raw MODIFY COLUMN order_date DATETIME DEFAULT NOW();
+
 show tables;
 desc orders_raw;
 desc customers_raw;
