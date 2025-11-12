@@ -108,6 +108,20 @@ ALTER TABLE products_raw MODIFY COLUMN added_at DATETIME DEFAULT NOW();
 
 ALTER TABLE orders_raw MODIFY COLUMN order_date DATETIME DEFAULT NOW();
 
+ALTER TABLE customers_raw MODIFY COLUMN customer_name varchar(50) NOT NULL;
+ALTER TABLE customers_raw MODIFY COLUMN phone varchar(15) NOT NULL;
+
+ALTER TABLE products_raw MODIFY COLUMN product_name varchar(50) NOT NULL;
+ALTER TABLE products_raw MODIFY COLUMN category varchar(50) NOT NULL;
+ALTER TABLE products_raw MODIFY COLUMN selling_price DECIMAL(10,2) NOT NULL;
+ALTER TABLE products_raw MODIFY COLUMN cost_price DECIMAL(10,2) NOT NULL;
+
+
+ALTER TABLE customers_raw ADD CONSTRAINT unique_phone UNIQUE (phone);
+ALTER TABLE customers_raw ADD CONSTRAINT unique_email UNIQUE (email);
+ALTER TABLE products_raw ADD CONSTRAINT unique_product_name UNIQUE (product_name);
+
+
 show tables;
 desc orders_raw;
 desc customers_raw;
