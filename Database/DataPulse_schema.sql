@@ -129,3 +129,34 @@ desc orders_raw;
 desc customers_raw;
 desc products_raw;
 desc sales_raw;
+
+-- creating the mapping tables
+CREATE TABLE customer_mapping (
+    c_mapping_id INT AUTO_INCREMENT PRIMARY KEY,
+    raw_customer_id INT NOT NULL UNIQUE,
+    main_customer_id INT NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE product_mapping (
+    p_mapping_id INT AUTO_INCREMENT PRIMARY KEY,
+    raw_product_id INT NOT NULL UNIQUE,
+    main_product_id INT NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE order_mapping (
+    o_mapping_id INT AUTO_INCREMENT PRIMARY KEY,
+    raw_order_id INT NOT NULL UNIQUE,
+    main_order_id INT NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE sale_mapping (
+    s_mapping_id INT AUTO_INCREMENT PRIMARY KEY,
+    raw_sale_id INT NOT NULL UNIQUE,
+    main_sale_id INT NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
