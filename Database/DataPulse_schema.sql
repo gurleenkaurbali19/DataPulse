@@ -172,7 +172,12 @@ SHOW INDEX FROM customers;
 DESC customers;
 DESC customers_raw;
 
+DESC products;
+DESC products_raw;
 
+DESC product_mapping;
+DESC customer_mapping;
 
+Desc sales;
 
 
