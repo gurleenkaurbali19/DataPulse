@@ -108,8 +108,6 @@ ALTER TABLE products_raw MODIFY COLUMN added_at DATETIME DEFAULT NOW();
 
 ALTER TABLE orders_raw MODIFY COLUMN order_date DATETIME DEFAULT NOW();
 
-ALTER TABLE customers_raw MODIFY COLUMN customer_name varchar(50) NOT NULL;
-ALTER TABLE customers_raw MODIFY COLUMN phone varchar(10) NOT NULL;
 
 ALTER TABLE products_raw MODIFY COLUMN product_name varchar(50) NOT NULL;
 ALTER TABLE products_raw MODIFY COLUMN category varchar(50) NOT NULL;
@@ -117,11 +115,15 @@ ALTER TABLE products_raw MODIFY COLUMN selling_price DECIMAL(10,2) NOT NULL;
 ALTER TABLE products_raw MODIFY COLUMN cost_price DECIMAL(10,2) NOT NULL;
 
 
+ALTER TABLE customers_raw MODIFY COLUMN customer_name varchar(50) NOT NULL;
+ALTER TABLE customers_raw MODIFY COLUMN phone varchar(10) NOT NULL;
 ALTER TABLE customers_raw ADD CONSTRAINT unique_phone UNIQUE (phone);
 ALTER TABLE customers_raw ADD CONSTRAINT unique_email UNIQUE (email);
+ALTER TABLE customers_raw DROP CONSTRAINT unique_email;
+
 ALTER TABLE products_raw ADD CONSTRAINT unique_product_name UNIQUE (product_name);
 
-ALTER TABLE customers_raw DROP CONSTRAINT unique_email;
+
 ALTER TABLE sales_raw MODIFY COLUMN order_id INT UNIQUE;
 
 show tables;
@@ -158,5 +160,19 @@ CREATE TABLE sale_mapping (
     main_sale_id INT NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE customers MODIFY COLUMN customer_name varchar(50) NOT NULL;
+ALTER TABLE customers MODIFY COLUMN phone varchar(10) NOT NULL;
+ALTER TABLE customers ADD CONSTRAINT unique_phone UNIQUE (phone);
+ALTER TABLE customers MODIFY COLUMN email varchar(50);
+ALTER TABLE customers modify COLUMN city varchar(30);
+ALTER TABLE customers DROP INDEX email;
+SHOW INDEX FROM customers;
+
+DESC customers;
+DESC customers_raw;
+
+
+
 
 
