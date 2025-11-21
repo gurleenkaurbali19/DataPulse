@@ -260,3 +260,60 @@ def migrate_sales():
     finally:
         cursor.close()
         conn.close()
+
+def migrate_all():
+    conn = create_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    summary = {
+        "customer_migration": None,
+        "product_migration": None,
+        "order_migration": None,
+        "sales_migration": None
+    }
+
+    try:
+        # -------------------------
+        # 1. CUSTOMERS
+        # -------------------------
+        cursor.execute("SELECT COUNT(*) AS cnt FROM customers_raw")
+        if cursor.fetchone()["cnt"] > 0:
+            summary["customer_migration"] = migrate_customer()
+        else:
+            summary["customer_migration"] = {"status": "skipped", "reason": "customers_raw is empty"}
+
+        # -------------------------
+        # 2. PRODUCTS
+        # -------------------------
+        cursor.execute("SELECT COUNT(*) AS cnt FROM products_raw")
+        if cursor.fetchone()["cnt"] > 0:
+            summary["product_migration"] = migrate_product()
+        else:
+            summary["product_migration"] = {"status": "skipped", "reason": "products_raw is empty"}
+
+        # -------------------------
+        # 3. ORDERS
+        # -------------------------
+        cursor.execute("SELECT COUNT(*) AS cnt FROM orders_raw")
+        if cursor.fetchone()["cnt"] > 0:
+            summary["order_migration"] = migrate_order()
+        else:
+            summary["order_migration"] = {"status": "skipped", "reason": "orders_raw is empty"}
+
+        # -------------------------
+        # 4. SALES
+        # -------------------------
+        cursor.execute("SELECT COUNT(*) AS cnt FROM sales_raw")
+        if cursor.fetchone()["cnt"] > 0:
+            summary["sales_migration"] = migrate_sales()
+        else:
+            summary["sales_migration"] = {"status": "skipped", "reason": "sales_raw is empty"}
+
+        return summary
+
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+    finally:
+        cursor.close()
+        conn.close()
