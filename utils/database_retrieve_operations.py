@@ -31,3 +31,78 @@ def retrieve_table(table_name):
             cursor.close()
             conn.close()
             print("Connection closed.")
+def retrieve_all_customers():
+    conn = create_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        query = """
+            SELECT customer_id, customer_name, 'RAW' AS source FROM customers_raw
+            UNION ALL
+            SELECT customer_id, customer_name, 'MAIN' AS source FROM customers
+        """
+        cursor.execute(query)
+        return cursor.fetchall()
+    except:
+        return []
+    finally:
+        cursor.close()
+        conn.close()
+def retrieve_all_products():
+    conn = create_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        query = """
+            SELECT 
+                product_id,
+                product_name,
+                category,
+                selling_price,
+                cost_price,
+                stock,
+                'RAW' AS source 
+            FROM products_raw
+            
+            UNION ALL
+            
+            SELECT 
+                product_id,
+                product_name,
+                category,
+                selling_price,
+                cost_price,
+                stock,
+                'MAIN' AS source 
+            FROM products
+        """
+        cursor.execute(query)
+        return cursor.fetchall()
+
+    except Exception as e:
+        print("Error in retrieve_all_products:", e)
+        return []
+
+    finally:
+        cursor.close()
+        conn.close()
+
+def retrieve_all_orders():
+    conn = create_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        query = """
+            SELECT order_id, customer_id, product_id, quantity, 'RAW' AS source 
+            FROM orders_raw
+            UNION ALL
+            SELECT order_id, customer_id, product_id, quantity, 'MAIN' AS source 
+            FROM orders
+        """
+        cursor.execute(query)
+        return cursor.fetchall()
+    except:
+        return []
+    finally:
+        cursor.close()
+        conn.close()
