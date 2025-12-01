@@ -2,15 +2,18 @@ import streamlit as st
 import sys, os
 import pandas as pd
 import mysql.connector
+import sys, os
+import streamlit as st
 
-# --- Import utility modules ---
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils.database_connection import create_connection
+# Add project root to sys.path
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+sys.path.append(PROJECT_ROOT)
 from utils.database_insert_operations import (
     insert_raw_customer,
     insert_raw_product,
     insert_raw_order,
     insert_raw_sale
+    
 )
 from utils.database_retrieve_operations import (
     retrieve_table,
@@ -18,6 +21,7 @@ from utils.database_retrieve_operations import (
     retrieve_all_products,
     retrieve_all_orders,
 )
+
 
 st.title("📊 Data Entry Portal")
 
